@@ -20,24 +20,28 @@ function addJQueryAndBegin(){
         var scriptTag = document.createElement("script");
         scriptTag.src = "https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js";
         scriptTag.onload = function(){
-            botStart();
+            botStop();
         };
         document.body.appendChild(scriptTag);
     } else {
-        botStart();
+        botStop();
     }
 }
 
 function botStart(){
+    var clickerInterval = setInterval(function() {
+        $("#bigCookie").click();
+    }, 10);
+
     bot_running = true;
     console.log("Bot Started.");
-    $getToggleBot().text("Start Bot");
+    $getToggleBot().text("Stop Bot");
 }
 
 function botStop(){
     bot_running = false;
     console.log("Bot Stoped.");
-    $getToggleBot().text("Stop Bot");
+    $getToggleBot().text("Start Bot");
 }
 
 function $getToggleBot(){
@@ -53,8 +57,8 @@ function $getToggleBot(){
             }
         });
         $toggle.css("cursor", "pointer");
-        $toggle.insertBefore("#topBar #links");
-//        $toggle.insertAfter("#versionNumber");
+//        $toggle.insertAfter("#sectionMiddle #statsButton");
+        $toggle.insertBefore("#sectionMiddle #logButton");
     }
 
     return $toggle;
