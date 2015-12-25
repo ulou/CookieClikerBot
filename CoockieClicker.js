@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Coockie Clicker Bot
 // @namespace    https://github.com/ulou
-// @version      0.31
+// @version      0.51b
 // @description  Bot who plays CoockieClicker for you!
 // @author       https://github.com/ulou
 // @include      http://orteil.dashnet.org/cookieclicker/
@@ -32,7 +32,7 @@ function addJQueryAndBegin(){
 
 function botStart(){
 
-    // click BigCookie 10 times per sec
+    // click BigCookie 100 times per sec
     var clickerInterval = setInterval(function() {
         $("#bigCookie").click();
     }, 10);
@@ -40,6 +40,8 @@ function botStart(){
     threads = [clickerInterval];
     bot_running = true;
     console.log("Bot Started.");
+    findBestProduct();
+    findBestUpgrade();
     $getToggleBot().text("Stop Bot");
 }
 
@@ -53,21 +55,49 @@ function botStop(){
     console.log("Bot Stoped.");
 }
 
-function findBestUpgrade() {
-    var upgradesRatio = [];
+function findBestProduct() {
+    var productInterval = setInterval(function () {
+        var productsRatio = [,];
 
-    for (var i = 0; i < Game.objectById.length; i++) {
-        upgradesRatio[i] = Game.ObjectsById[i].storedCps / Game.ObjectsById[i].price;
-    }
+        for (var i = 0; i < Game.ObjectsById.length; i++) {
+            productsRatio[i] = {
+                id: Game.ObjectsById[i].id,
+                ratio: Game.ObjectsById[i].storedCps / Game.ObjectsById[i].price
+            };
+        }
 
-    upgradesRatio.sort();
+        productsRatio.sort(function (a, b) {
+            if (a.ratio > b.ratio) {
+                return -1;
+            }
+            if (a.ratio < b.ratio) {
+                return 1;
+            }
+            return 0;
+        });
 
-    console.log(upgradesRatio);
+        console.log(productsRatio);
 
-    var findInterval = setInterval(function () {
-        // check upgrades
-    }, 1000);
+        for (var i = 0; i < 5; i++)
+            $("#product" + productsRatio[i].id).click();
+    }, 10000);
+
+    threads.push(productInterval);
 }
+
+function findBestUpgrade() {
+    var upgradesInterval = setInterval(function () {
+        //var upgrades = [,];
+        for (var i = 0; i < Game.UpgradesInStore.length; i++) {
+            // upgrades[i] = Game.UpgradesInStore[i].id;
+            $("#upgrade" + i).click();
+        }
+
+    }, 10000);
+
+    threads.push(upgradesInterval);
+}
+
 
 function $getToggleBot(){
     var $toggle = $("#botToggle");
