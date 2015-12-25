@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Coockie Clicker Bot
 // @namespace    https://github.com/ulou
-// @version      0.1
+// @version      0.2
 // @description  Bot who plays CoockieClicker for you!
 // @author       https://github.com/ulou
-// @include        http://orteil.dashnet.org/cookieclicker/
+// @include      http://orteil.dashnet.org/cookieclicker/
 // @grant        none
 // ==/UserScript==
 /* jshint -W097 */
