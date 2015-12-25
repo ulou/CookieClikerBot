@@ -13,6 +13,7 @@
 // Your code here...
 
 var bot_running = false;
+var threads = [];
 
 function addJQueryAndBegin(){
     //noinspection JSUnresolvedVariable
@@ -29,19 +30,26 @@ function addJQueryAndBegin(){
 }
 
 function botStart(){
+
+    // click BigCookie 10 times per sec
     var clickerInterval = setInterval(function() {
         $("#bigCookie").click();
     }, 10);
 
+    threads = [clickerInterval];
     bot_running = true;
     console.log("Bot Started.");
     $getToggleBot().text("Stop Bot");
 }
 
 function botStop(){
+    $getToggleBot().text("Start Bot");
+    if (!bot_running)
+        return;
+    for (var i = 0; i < threads.length; i++)
+        clearInterval(threads[i]);
     bot_running = false;
     console.log("Bot Stoped.");
-    $getToggleBot().text("Start Bot");
 }
 
 function $getToggleBot(){
@@ -52,12 +60,11 @@ function $getToggleBot(){
         $toggle.on("click", function(){
             if(bot_running){
                 botStop();
-            } else{
+            } else if (!bot_running) {
                 botStart();
             }
         });
         $toggle.css("cursor", "pointer");
-//        $toggle.insertAfter("#sectionMiddle #statsButton");
         $toggle.insertBefore("#sectionMiddle #logButton");
     }
 
