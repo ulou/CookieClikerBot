@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Coockie Clicker Bot
 // @namespace    https://github.com/ulou
-// @version      0.2
+// @version      0.31
 // @description  Bot who plays CoockieClicker for you!
 // @author       https://github.com/ulou
 // @include      http://orteil.dashnet.org/cookieclicker/
+// @updateURL    https://raw.githubusercontent.com/ulou/CookieClikerBot/master/CoockieClicker.js
 // @grant        none
 // ==/UserScript==
 /* jshint -W097 */
@@ -50,6 +51,22 @@ function botStop(){
         clearInterval(threads[i]);
     bot_running = false;
     console.log("Bot Stoped.");
+}
+
+function findBestUpgrade() {
+    var upgradesRatio = [];
+
+    for (var i = 0; i < Game.objectById.length; i++) {
+        upgradesRatio[i] = Game.ObjectsById[i].storedCps / Game.ObjectsById[i].price;
+    }
+
+    upgradesRatio.sort();
+
+    console.log(upgradesRatio);
+
+    var findInterval = setInterval(function () {
+        // check upgrades
+    }, 1000);
 }
 
 function $getToggleBot(){
